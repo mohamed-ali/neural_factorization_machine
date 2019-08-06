@@ -127,7 +127,7 @@ class NeuralFM(BaseEstimator, TransformerMixin):
                 self.squared_features_emb, 1)  # None * K
 
             # ________ FM __________
-            self.FM = 0.5 * tf.sub(self.summed_features_emb_square,
+            self.FM = 0.5 * tf.subtract(self.summed_features_emb_square,
                                    self.squared_sum_features_emb)  # None * K
             if self.batch_norm:
                 self.FM = self.batch_norm_layer(
@@ -160,11 +160,11 @@ class NeuralFM(BaseEstimator, TransformerMixin):
             # Compute the loss.
             if self.loss_type == 'square_loss':
                 if self.lamda_bilinear > 0:
-                    self.loss = tf.nn.l2_loss(tf.sub(self.train_labels, self.out)) + tf.contrib.layers.l2_regularizer(
+                    self.loss = tf.nn.l2_loss(tf.subtract(self.train_labels, self.out)) + tf.contrib.layers.l2_regularizer(
                         self.lamda_bilinear)(self.weights['feature_embeddings'])  # regulizer
                 else:
                     self.loss = tf.nn.l2_loss(
-                        tf.sub(self.train_labels, self.out))
+                        tf.subtract(self.train_labels, self.out))
             elif self.loss_type == 'log_loss':
                 self.out = tf.sigmoid(self.out)
                 if self.lambda_bilinear > 0:
